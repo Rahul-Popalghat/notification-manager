@@ -57,6 +57,7 @@
 </div>
 
 <script>
+  Notification.requestPermission();
   document.getElementById('appointmentForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting and refreshing the page
     
