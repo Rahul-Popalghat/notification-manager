@@ -83,14 +83,15 @@
     }
 
     const appointmentItem = document.createElement('li');
-    appointmentItem.innerText = `Name: ${name}, Email: ${email}, Date: ${date}, Time: ${time}`;
+    appointmentItem.innerText = `Name: ${name}, Mobile: ${email}, Date: ${date}, Time: ${time}`;
     appointmentList.appendChild(appointmentItem);
 
     // Set a timeout to show the notification when the scheduled time arrives
     setTimeout(function() {
+      alert("called")
       if (Notification.permission === "granted") {
-        const notification = new Notification("Scheduled Appointment", {
-          body: "Hi " + name + "! Your appointment is scheduled for " + date + " at " + time + ".",
+        const notification = new Notification("Scheduled Notification", {
+          body: "Hi " + name + " and mobile number "+email+ "! Your Notification is scheduled for " + date + " at " + time + ".",
         });
       }
     }, scheduledDateTime - new Date());
