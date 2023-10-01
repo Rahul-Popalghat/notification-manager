@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +35,7 @@
 
 <div class="container">
   <h2>Schedule an Appointment</h2>
-  <form>
+  <form id="appointmentForm">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
@@ -58,6 +57,33 @@
 </div>
 
 <script>
+  document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the form from submitting and refreshing the page
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+
+    // Concatenate date and time into a single string in the format 'YYYY-MM-DDTHH:MM'
+    const scheduledDateTime = date + 'T' + time;
+
+    // Convert the scheduled date and time to a JavaScript Date object
+    const scheduledTime = new Date(scheduledDateTime);
+
+    // Calculate the time difference in milliseconds between now and the scheduled time
+    const timeDifference = scheduledTime - new Date();
+
+    // Set a timeout to show the notification when the scheduled time arrives
+    setTimeout(function() {
+      if (Notification.permission === "granted") {
+        const notification = new Notification("Scheduled Appointment", {
+          body: "Hi " + name + "! Your appointment is scheduled for " + date + " at " + time + ".",
+        });
+      }
+    }, timeDifference);
+  });
+
   function showNotification() {
     if (Notification.permission !== "granted") {
       Notification.requestPermission().then(function (permission) {
