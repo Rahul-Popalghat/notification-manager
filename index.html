@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Schedule Appointment</title>
+  <title>Schedule Notifications</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,20 +29,23 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+    #upcomingAppointments {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Schedule an Appointment</h2>
+  <h2>Schedule an Notification</h2>
   <form id="appointmentForm">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
     </div>
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <label for="mobile">Mobile Number</label>
+      <input type="number" id="email" name="email" required>
     </div>
     <div class="form-group">
       <label for="date">Preferred Date:</label>
@@ -52,12 +55,18 @@
       <label for="time">Preferred Time:</label>
       <input type="time" id="time" name="time" required>
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">Schedule Appointment</button>
   </form>
 </div>
 
+<div id="upcomingAppointments" class="container">
+  <h2>Upcoming Appointments</h2>
+  <ul id="appointmentList"></ul>
+</div>
+
 <script>
-  Notification.requestPermission();
+  const appointmentList = document.getElementById('appointmentList');
+
   document.getElementById('appointmentForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting and refreshing the page
     
@@ -66,14 +75,16 @@
     const date = document.getElementById('date').value;
     const time = document.getElementById('time').value;
 
-    // Concatenate date and time into a single string in the format 'YYYY-MM-DDTHH:MM'
-    const scheduledDateTime = date + 'T' + time;
+    const scheduledDateTime = new Date(date + 'T' + time);
+    
+    if (scheduledDateTime < new Date()) {
+      alert('Please select a future date and time.');
+      return;
+    }
 
-    // Convert the scheduled date and time to a JavaScript Date object
-    const scheduledTime = new Date(scheduledDateTime);
-
-    // Calculate the time difference in milliseconds between now and the scheduled time
-    const timeDifference = scheduledTime - new Date();
+    const appointmentItem = document.createElement('li');
+    appointmentItem.innerText = `Name: ${name}, Email: ${email}, Date: ${date}, Time: ${time}`;
+    appointmentList.appendChild(appointmentItem);
 
     // Set a timeout to show the notification when the scheduled time arrives
     setTimeout(function() {
@@ -82,24 +93,8 @@
           body: "Hi " + name + "! Your appointment is scheduled for " + date + " at " + time + ".",
         });
       }
-    }, timeDifference);
+    }, scheduledDateTime - new Date());
   });
-
-  function showNotification() {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {
-          new Notification("Notification Title", {
-            body: "Notification Body"
-          });
-        }
-      });
-    } else {
-      new Notification("Notification Title", {
-        body: "Notification Body"
-      });
-    }
-  }
 </script>
 
 </body>
