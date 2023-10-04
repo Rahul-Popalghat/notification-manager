@@ -65,6 +65,12 @@
 </div>
 
 <script>
+if(Notification.permission === "granted"){
+
+}else{
+Notification.requestPermission();
+}
+
   const appointmentList = document.getElementById('appointmentList');
 
   document.getElementById('appointmentForm').addEventListener('submit', function(event) {
@@ -88,7 +94,7 @@
 
     // Set a timeout to show the notification when the scheduled time arrives
     setTimeout(function() {
-      alert("called")
+    
       if (Notification.permission === "granted") {
         const notification = new Notification("Scheduled Notification", {
           body: "Hi " + name + " and mobile number "+email+ "! Your Notification is scheduled for " + date + " at " + time + ".",
