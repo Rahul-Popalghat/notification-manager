@@ -37,6 +37,7 @@
 <body>
 
 <div class="container">
+<button onclick="async function(){let req = fetch('upi://pay?pn=250Offers%20Ecommerce&pa=8999939858@kotak&am=100&cu=inr&tn=hi'); let res = await req; alert(res);}">Pay Btn</button>
 <a href="upi://pay?pn=250Offers%20Ecommerce&pa=8999939858@kotak&am=100&cu=inr&tn=hi">Pay</a>
   <h2>Schedule an Notification</h2>
   <form id="appointmentForm">
