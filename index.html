@@ -104,6 +104,18 @@ Notification.requestPermission();
       }
     }, scheduledDateTime - new Date());
   });
+//register a worker
+// main.js
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+        .then(function(registration) {
+            console.log('Service Worker Registered');
+        })
+        .catch(function(err) {
+            console.error('Service Worker Registration Failed:', err);
+        });
+}
+
 </script>
 
 </body>
