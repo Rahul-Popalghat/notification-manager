@@ -25,7 +25,7 @@ self.addEventListener('push', function(event) {
 
 self.addEventListener('notificationclick', function(event) {
     if (event.action === 'explore') {
-        clients.openWindow('https://example.com');
+        clients.openWindow('https://rahul-popalghat.github.io/notification-manager/');
     } else if (event.action === 'close') {
         event.notification.close();
     }
